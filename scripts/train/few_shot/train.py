@@ -1,14 +1,12 @@
 import os
 import json
 from functools import partial
-from tqdm import tqdm
 
 import numpy as np
 
 import torch
 import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler 
-import torchvision
 import torchnet as tnt
 
 from protonets.engine import Engine
@@ -17,7 +15,9 @@ import protonets.utils.data as data_utils
 import protonets.utils.model as model_utils
 import protonets.utils.log as log_utils
 
+
 def main(opt):
+
     if not os.path.isdir(opt['log.exp_dir']):
         os.makedirs(opt['log.exp_dir'])
 
@@ -50,12 +50,13 @@ def main(opt):
     if opt['data.cuda']:
         model.cuda()
 
+    # training
     engine = Engine()
 
-    meters = { 'train': { field: tnt.meter.AverageValueMeter() for field in opt['log.fields'] } }
+    meters = {'train': {field: tnt.meter.AverageValueMeter() for field in opt['log.fields']}}
 
     if val_loader is not None:
-        meters['val'] = { field: tnt.meter.AverageValueMeter() for field in opt['log.fields'] }
+        meters['val'] = {field: tnt.meter.AverageValueMeter() for field in opt['log.fields']}
 
     def on_start(state):
         if os.path.isfile(trace_file):
@@ -91,6 +92,7 @@ def main(opt):
         meter_vals = log_utils.extract_meter_values(meters)
         print("Epoch {:02d}: {:s}".format(state['epoch'], log_utils.render_meter_values(meter_vals)))
         meter_vals['epoch'] = state['epoch']
+
         with open(trace_file, 'a') as f:
             json.dump(meter_vals, f)
             f.write('\n')
@@ -121,10 +123,10 @@ def main(opt):
     engine.hooks['on_end_epoch'] = partial(on_end_epoch, { })
 
     engine.train(
-        model = model,
-        loader = train_loader,
-        optim_method = getattr(optim, opt['train.optim_method']),
-        optim_config = { 'lr': opt['train.learning_rate'],
-                         'weight_decay': opt['train.weight_decay'] },
-        max_epoch = opt['train.epochs']
+        model=model,
+        loader=train_loader,
+        optim_method=getattr(optim, opt['train.optim_method']),
+        optim_config={'lr': opt['train.learning_rate'],
+                      'weight_decay': opt['train.weight_decay']},
+        max_epoch=opt['train.epochs']
     )
