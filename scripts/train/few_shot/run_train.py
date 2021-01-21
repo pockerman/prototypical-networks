@@ -1,7 +1,11 @@
 import argparse
 
 from train import main
+from protonets.utils.utils import read_config_file
+from protonets.utils.utils import build_parser_from_config_map
+from protonets.models.factory import register_model
 
+"""
 parser = argparse.ArgumentParser(description='Train prototypical networks')
 
 # data args
@@ -35,25 +39,34 @@ parser.add_argument('--data.cuda', action='store_true', help="run in CUDA mode (
 default_model_name = 'protonet_conv'
 parser.add_argument('--model.model_name', type=str, default=default_model_name, metavar='MODELNAME',
                     help="model name (default: {:s})".format(default_model_name))
+                    
 parser.add_argument('--model.x_dim', type=str, default='1,28,28', metavar='XDIM',
                     help="dimensionality of input images (default: '1,28,28')")
+                    
 parser.add_argument('--model.hid_dim', type=int, default=64, metavar='HIDDIM',
                     help="dimensionality of hidden layers (default: 64)")
+                    
 parser.add_argument('--model.z_dim', type=int, default=64, metavar='ZDIM',
                     help="dimensionality of input images (default: 64)")
 
 # train args
 parser.add_argument('--train.epochs', type=int, default=10000, metavar='NEPOCHS',
                     help='number of epochs to train (default: 10000)')
+                    
 parser.add_argument('--train.optim_method', type=str, default='Adam', metavar='OPTIM',
                     help='optimization method (default: Adam)')
+                    
 parser.add_argument('--train.learning_rate', type=float, default=0.001, metavar='LR',
                     help='learning rate (default: 0.0001)')
+                    
 parser.add_argument('--train.decay_every', type=int, default=20, metavar='LRDECAY',
                     help='number of epochs after which to decay the learning rate')
+
+
 default_weight_decay = 0.0
 parser.add_argument('--train.weight_decay', type=float, default=default_weight_decay, metavar='WD',
                     help="weight decay (default: {:f})".format(default_weight_decay))
+                    
 parser.add_argument('--train.patience', type=int, default=200, metavar='PATIENCE',
                     help='number of epochs to wait before validation improvement (default: 1000)')
 
@@ -61,10 +74,21 @@ parser.add_argument('--train.patience', type=int, default=200, metavar='PATIENCE
 default_fields = 'loss,acc'
 parser.add_argument('--log.fields', type=str, default=default_fields, metavar='FIELDS',
                     help="fields to monitor during training (default: {:s})".format(default_fields))
+                    
 default_exp_dir = 'results'
 parser.add_argument('--log.exp_dir', type=str, default=default_exp_dir, metavar='EXP_DIR',
                     help="directory where experiments should be saved (default: {:s})".format(default_exp_dir))
 
 args = vars(parser.parse_args())
+"""
 
-main(args)
+if __name__ == '__main__':
+
+    print("Start training model...")
+    config_map = read_config_file(filename="train_config.json")
+    args = build_parser_from_config_map(config_map=config_map)
+
+    # need to load the models registry
+    #register_model(model_name="protonet_conv2")
+
+    main(args)

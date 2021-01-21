@@ -2,8 +2,9 @@ import json
 
 import numpy as np
 
+
 def extract_meter_values(meters):
-    ret = { }
+    ret = {}
 
     for split in meters.keys():
         ret[split] = { }
@@ -11,6 +12,7 @@ def extract_meter_values(meters):
             ret[split][field] = meter.value()[0]
 
     return ret
+
 
 def render_meter_values(meter_values):
     field_info = []
@@ -20,29 +22,31 @@ def render_meter_values(meter_values):
 
     return ', '.join(field_info)
 
+
 def convert_array(d):
-    ret = { }
+    ret = {}
     for k,v in d.items():
         if isinstance(v, dict):
-            ret[k] = { }
-            for kk,vv in v.items():
+            ret[k] = {}
+            for kk, vv in v.items():
                 ret[k][kk] = np.array(vv)
         else:
             ret[k] = np.array(v)
 
     return ret
 
+
 def load_trace(trace_file):
-    ret = { }
+    ret = {}
 
     with open(trace_file, 'r') as f:
-        for i,line in enumerate(f):
+        for i, line in enumerate(f):
             vals = json.loads(line.rstrip('\n'))
 
             if i == 0:
-                for k,v in vals.items():
+                for k, v in vals.items():
                     if isinstance(v, dict):
-                        ret[k] = { }
+                        ret[k] = {}
                         for kk in v.keys():
                             ret[k][kk] = []
                     else:

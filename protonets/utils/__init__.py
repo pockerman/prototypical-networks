@@ -8,6 +8,7 @@ def filter_opt(opt, tag):
 
     return ret
 
+
 def format_opts(d):
     ret = []
     for k,v in d.items():
@@ -18,6 +19,7 @@ def format_opts(d):
         else:
             ret = ret + ["--" + k, str(v)]
     return ret
+
 
 def merge_dict(x, y):
     ret = x.copy()
