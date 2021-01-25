@@ -16,8 +16,8 @@ from torchnet.transform import compose
 import protonets
 from protonets.data.base import convert_dict, CudaTransform, EpisodicBatchSampler, SequentialBatchSampler
 
-OMNIGLOT_DATA_DIR  = os.path.join(os.path.dirname(__file__), '../../data/omniglot')
-OMNIGLOT_CACHE = { }
+OMNIGLOT_DATA_DIR = os.path.join(os.path.dirname(__file__), '../../data/omniglot')
+OMNIGLOT_CACHE = {}
 
 
 def load_image_path(key, out_field, d):
@@ -62,7 +62,7 @@ def load_class_images(d):
             OMNIGLOT_CACHE[d['class']] = sample['data']
             break # only need one sample because batch size equal to dataset length
 
-    return { 'class': d['class'], 'data': OMNIGLOT_CACHE[d['class']] }
+    return {'class': d['class'], 'data': OMNIGLOT_CACHE[d['class']]}
 
 
 def extract_episode(n_support, n_query, d):
@@ -89,7 +89,7 @@ def extract_episode(n_support, n_query, d):
 def load(opt, splits):
     split_dir = os.path.join(OMNIGLOT_DATA_DIR, 'splits', opt['data.split'])
 
-    ret = { }
+    ret = {}
     for split in splits:
         if split in ['val', 'test'] and opt['data.test_way'] != 0:
             n_way = opt['data.test_way']

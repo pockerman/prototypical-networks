@@ -25,6 +25,7 @@ class SequentialBatchSampler(object):
         for i in range(self.n_classes):
             yield torch.LongTensor([i])
 
+
 class EpisodicBatchSampler(object):
     def __init__(self, n_classes, n_way, n_episodes):
         self.n_classes = n_classes

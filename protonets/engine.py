@@ -5,6 +5,7 @@ class Engine(object):
     """
     Network training engine
     """
+
     def __init__(self):
         hook_names = ['on_start', 'on_start_epoch', 'on_sample', 'on_forward',
                       'on_backward', 'on_end_epoch', 'on_update', 'on_end']
@@ -81,5 +82,6 @@ class Engine(object):
             self.hooks['on_end_epoch'](state)
 
         self.hooks['on_end'](state)
+
         # finally assign the trained state
         self._state = state
