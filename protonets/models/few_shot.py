@@ -52,6 +52,7 @@ class Protonet(nn.Module):
 
         dists = euclidean_dist(zq, z_proto)
 
+        # take the negative of the distances
         log_p_y = F.log_softmax(-dists, dim=1).view(n_class, n_query, -1)
 
         loss_val = -log_p_y.gather(2, target_inds).squeeze().view(-1).mean()

@@ -24,6 +24,15 @@ def build_parser_from_config_map(config_map):
     parser.add_argument('--data.dataset', type=str, default=config_map['--data.dataset'], #default_dataset,
                         metavar='DS', help="data set name (default: {:s})".format(config_map['--data.dataset']))
 
+    if config_map['--data.dataset'] == 'tuf':
+        parser.add_argument('--data.tuf_filename', type=str, default=config_map['--data.tuf_filename'],  # default_dataset,
+                            metavar='DS', help="TUF data set name")
+
+        parser.add_argument('--data.labels_to_idx', type=map, default=config_map['--data.labels_to_idx'],
+                            # default_dataset,
+                            metavar='DS', help="Labels TUF map")
+
+
     default_split = 'vinyals'
     parser.add_argument('--data.split', type=str, default=config_map['--data.split'], #default_split,
                         metavar='SP', help="split name (default: {:s})".format(config_map['--data.split']))
